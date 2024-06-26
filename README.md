@@ -18,19 +18,6 @@ This is a simple direct messaging application built with PHP and MySQL. It allow
 5. **Rate Limiting:** Implemented rate limiting on login attempts to mitigate brute force attacks.
 6. **HTTPS:** Ensure the application runs over HTTPS to encrypt data transmission.
 
-## Requirements
-
-- PHP 7.x or higher
-- MySQL database
-- Apache or Nginx server
-
-## Installation
-
-1. Clone or download the repository.
-2. Import the `database.sql` file into your MySQL database.
-3. Configure database credentials in `config.php`.
-4. Ensure your web server (Apache or Nginx) is configured to serve PHP files.
-
 ## Usage
 
 1. Navigate to the application URL.
@@ -71,6 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 - Web server (Apache, Nginx, etc.)
 
 ## Installation
+
+-  Clone or download the repository.
+-  Import the `database.sql` file into your MySQL database.
+-  Configure database credentials in `config.php`.
+-  Ensure your web server (Apache or Nginx) is configured to serve PHP files.
 
 1. **Clone the repository:**
     ```bash
