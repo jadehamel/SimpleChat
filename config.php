@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
 $db = 'simple_messenger';
-$user = 'root';
-$pass = '';
+$user = 'your_db_user';
+$pass = 'your_db_password';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
