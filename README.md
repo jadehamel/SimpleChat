@@ -1,12 +1,68 @@
-# SimpleChat
+# Simple PHP Messenger
 
-SimpleChat is a basic direct messaging application built with PHP and MySQL. It allows users to register, log in, and send messages to other registered users using their usernames.
+This is a simple direct messaging application built with PHP and MySQL. It allows users to register, login, send messages to each other, and view their message history.
 
 ## Features
 
-- User registration and login system
-- Send and receive messages to/from other users
-- Simple and clean interface
+- **User Registration:** Users can register with a username and password.
+- **User Login:** Secure login system using password hashing.
+- **Direct Messaging:** Send messages to other registered users.
+- **Message History:** View message history with other users.
+
+## Security Measures Implemented
+
+1. **Password Hashing:** User passwords are hashed using PHP's `password_hash()` function to protect against password theft.
+2. **Prepared Statements:** All database queries use prepared statements (`PDO::prepare`) to prevent SQL injection attacks.
+3. **Session Management:** Sessions are securely managed with `session_start()` and validated to ensure users are authenticated (`$_SESSION['user_id']`).
+4. **Input Sanitization:** User inputs are sanitized using `FILTER_SANITIZE_STRING` to prevent XSS attacks.
+5. **Rate Limiting:** Implemented rate limiting on login attempts to mitigate brute force attacks.
+6. **HTTPS:** Ensure the application runs over HTTPS to encrypt data transmission.
+
+## Requirements
+
+- PHP 7.x or higher
+- MySQL database
+- Apache or Nginx server
+
+## Installation
+
+1. Clone or download the repository.
+2. Import the `database.sql` file into your MySQL database.
+3. Configure database credentials in `config.php`.
+4. Ensure your web server (Apache or Nginx) is configured to serve PHP files.
+
+## Usage
+
+1. Navigate to the application URL.
+2. Register with a username and password.
+3. Login using your registered credentials.
+4. Start a new chat by entering the username of the recipient.
+5. Send and receive messages with other registered users.
+
+## Example
+
+```php
+// Example of sending a message in chat.php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Sanitize and validate receiver and message inputs
+    $receiver = filter_var(trim($_POST['receiver']), FILTER_SANITIZE_STRING);
+    $message = filter_var(trim($_POST['message']), FILTER_SANITIZE_STRING);
+    $sender_id = $_SESSION['user_id'];
+
+    // Retrieve receiver's user ID from database
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE username = :username");
+    $stmt->execute(['username' => $receiver]);
+    $receiver_id = $stmt->fetchColumn();
+
+    // If receiver exists, insert message into database
+    if ($receiver_id) {
+        $stmt = $pdo->prepare("INSERT INTO messages (sender_id, receiver_id, message) VALUES (:sender_id, :receiver_id, :message)");
+        $stmt->execute(['sender_id' => $sender_id, 'receiver_id' => $receiver_id, 'message' => $message]);
+    } else {
+        echo "User not found";
+    }
+}
+```
 
 ## Requirements
 
